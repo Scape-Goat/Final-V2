@@ -9,9 +9,12 @@ import javax.swing.JOptionPane;
 public class Board extends JPanel implements ActionListener {
 
 Map map;
+Timer timer;
     public Board() {
         setPreferredSize(new Dimension(600, 600));
         setBackground(Color.black);
+        timer = new Timer(1000/60, this);
+        timer.start();
         map = new Map();
         map.update();
     }
@@ -19,15 +22,14 @@ Map map;
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.setColor(Color.white);
-        g.drawLine(-100,300,700,300);
-        g.drawLine(300,-100,300,700);
+
         map.paint(g);
 
     }
 
 
     public void actionPerformed(ActionEvent e) {
-
+        map.move();
         repaint();
     }
     private void printRainbowString(String s, int width, int XPos, int YPos, Graphics g2d){

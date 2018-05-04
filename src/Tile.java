@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Tile implements Move,Paint {
-    int x,y,width=150,height=30;
+    int x,y,width=10,height=10;
     public Tile(int row, int column){
         x=(column*width)+285;
         y=(row*height)+285;
@@ -18,5 +18,10 @@ public class Tile implements Move,Paint {
         g.fillRect(x,y,width,height);
         g.setColor(Color.white);
         g.drawRect(x,y,width,height);
+    }
+
+    public void move(Player player){
+        x -= player.getDx();
+        y -= player.getDy();
     }
 }
