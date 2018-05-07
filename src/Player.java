@@ -6,8 +6,8 @@ public class Player extends Tile {
         super(row, col);
         spawnX = x;
         spawnY = y;
-        //width = 30;
-        //height = 30;
+        width = 30;
+        height = 30;
     }
 
     public void move(){
@@ -37,7 +37,7 @@ public class Player extends Tile {
     public void paint(Graphics g){
         g.setColor(Color.ORANGE);
         g.fillOval(x,y,width,height);
-        g.fillRect(spawnX,spawnY,width,height);
+        g.drawRect(spawnX,spawnY,width,height);
     }
 
     public int getDy() {
