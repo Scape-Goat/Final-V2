@@ -63,7 +63,7 @@ public class Map {
                     case 0:  player = new Player(spawnRow,currentCol ); currentTile = player; break;
                     case 1: currentTile = null; break;
                     case 2: currentTile = new Tile(spawnRow,currentCol); break;
-                    case 3: currentTile = new Saw(spawnRow,currentCol, 3,100,0,0); break;
+                    case 3: currentTile = new Saw(spawnRow,currentCol, 3,100,100,0); break;
                     case 9: currentTile = new Exit(spawnRow,currentCol); break;
                 }
                 map[row][col] = currentTile;
@@ -74,7 +74,7 @@ public class Map {
     }
 
     public void move(){
-        player.move();
+        player.move(map);
         for(int row = 0; row<setup.length; row++){
             for(int col = 0; col<setup[row].length; col++){
                 if(!( map[row][col] instanceof Player) &&  map[row][col] != null){

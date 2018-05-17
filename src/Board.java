@@ -14,9 +14,9 @@ Timer timer;
         setPreferredSize(new Dimension(600, 600));
         setBackground(Color.black);
         timer = new Timer(1000/60, this);
-        timer.start();
         map = new Map();
         map.update();
+        timer.start();
     }
 
     public void paintComponent(Graphics g){
