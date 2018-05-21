@@ -23,9 +23,11 @@ public class Player extends Tile {
         for(Tile tile: tiles) {
             if (tile != null && !(tile instanceof Player))
                 if (tile.getBounds().intersects(getBounds())) {
-                    falling = false;
+
+                        falling = false;
                     break;
                 } else {
+
                     falling = true;
                 }
         }
@@ -37,17 +39,32 @@ public class Player extends Tile {
         }
         else if(jumping){
             dy+=1;
-            for(Tile[] row: map)
-                for(Tile tile: row)
+                for(Tile tile: tiles)
                     if(tile!=null && !(tile instanceof Player))
-                        if(tile.getBounds().intersects(getBounds())){
-                          jumping = false;
-                          canJump = true;
-                          break;
+                        if(tile.getBounds().intersects(getBounds())) {
+                            if(!(tile instanceof Exit)) {
+
+                                if (y + height / 2 > tile.y + tile.height / 2) {
+                                    dy = 1;
+                                } else {
+                                    dy = 0;
+                                    jumping = false;
+                                    canJump = true;
+
+                                }
+
+                            }
+                            else{
+                                dy = 0;
+                            }
+                            break;
                         }
         }
         else if(falling) {
+            if(dy<30)
             dy += 1;
+
+
             System.out.println(dy);
         }
         else{
