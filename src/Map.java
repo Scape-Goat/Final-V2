@@ -86,12 +86,15 @@ public class Map {
     }
 
     public void paint(Graphics g){
+        player.paint(g);
         for(int row = 0; row<setup.length; row++) {
             for (int col = 0; col < setup[row].length; col++) {
-                if(map[row][col] != null)
-                map[row][col].paint(g);
+                if(map[row][col] != null && !(map[row][col] instanceof Player))
+                        map[row][col].paint(g);
             }
+
         }
+
     }
 
     /*

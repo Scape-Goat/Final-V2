@@ -63,9 +63,12 @@ public class Player extends Tile {
         else if(falling) {
             if(dy<30)
             dy += 1;
-
-
-            System.out.println(dy);
+            for(Tile tile: tiles)
+                if(tile!=null && !(tile instanceof Player))
+                    if(new Rectangle(x,y+dy, width, height).intersects(tile.getBounds())) {
+                        dy = 0;
+                        break;
+                    }
         }
         else{
             dy = -1;
