@@ -1,7 +1,211 @@
 import java.awt.*;
 
 public class Map {
-    int[][] setup = {
+    static int level = 0;
+    static int[][][] setup = {
+
+            {
+                    {0,1,1,1,1,1,9},
+                    {2,2,2,2,2,2,2}
+                    },
+
+            {
+                    {9,1,1,1,1,1,0},
+                    {2,2,2,2,2,2,2}
+            },
+
+            {
+                    {1,1,1,9,1,1,0},
+                    {2,2,2,2,2,2,2}
+            },
+
+            {
+                    {9},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {0},
+                    {2}
+            },
+
+            {
+                    {0},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {2},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {1},
+                    {9},
+                    {2}
+            },
+
+            {
+                    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,9},
+                    {2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2}
+            },
+
+
+            {
+                    {0,1,1,1,1,1,9},
+                    {2,1,1,1,1,1,2},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,2,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1},
+                    {1,1,1,2,1,2,1}
+            },
+
+
+
+
+
+
+
+
+};
+  static   Tile[][] map;
+   static Player player;
+
+    public static void update(){
+        map = new Tile[setup[level].length][setup[level][0].length];
+        int spawnRow = -1;
+        int spawnCol = -1;
+        for(int row = 0; row<setup[level].length; row++) {
+            for (int col = 0; col < setup[level][row].length; col++) {
+                if(setup[level][row][col]==0){
+                    spawnRow = -row;
+                    spawnCol = -col;
+                }
+            }
+        }
+
+
+        for(int row = 0; row<setup[level].length; row++){
+            int currentCol = spawnCol;
+            for(int col = 0; col<setup[level][row].length; col++){
+                Tile currentTile = null;
+                switch(setup[level][row][col]){
+                    case 0:  player = new Player(spawnRow,currentCol ); currentTile = player; break;
+                    case 1: currentTile = null; break;
+                    case 2: currentTile = new Tile(spawnRow,currentCol); break;
+                    case 3: currentTile = new Saw(spawnRow,currentCol, 3,100,100,0); break;
+                    case 9: currentTile = new Exit(spawnRow,currentCol); break;
+                }
+                map[row][col] = currentTile;
+                currentCol++;
+            }
+            spawnRow++;
+        }
+    }
+
+    public void move(){
+        player.move(map);
+        for(int row = 0; row<setup[level].length; row++){
+            for(int col = 0; col<setup[level][row].length; col++){
+                if(!( map[row][col] instanceof Player) &&  map[row][col] != null){
+                    map[row][col].move(player);
+                }
+            }
+        }
+
+    }
+
+    public void paint(Graphics g){
+        player.paint(g);
+        for(int row = 0; row<setup[level].length; row++) {
+            for (int col = 0; col < setup[level][row].length; col++) {
+                if(map[row][col] != null && !(map[row][col] instanceof Player))
+                        map[row][col].paint(g);
+            }
+
+        }
+
+    }
+
+    public static void nextLevel(){
+        level++;
+        update();
+    }
+
+    /*
+        {0,1,1,1,1,1,9},
+        {2,2,2,2,2,2,2}
+
+        {0,1,1,1,1,1,9},
+        {2,1,2,1,2,1,2}
+
+
+        {2,2,2,2,2,2,2},
+        {2,0,1,1,1,1,2},
+        {2,2,2,2,2,1,2},
+        {2,1,1,1,1,1,2},
+        {2,1,2,2,2,2,2},
+        {2,1,1,1,1,9,2},
+        {2,2,2,2,2,2,2},
+
             {9,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -36,82 +240,6 @@ public class Map {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {0,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,1}
-
-
-    };
-    Tile[][] map = new Tile[setup.length][setup[0].length];
-    Player player;
-
-    public void update(){
-        int spawnRow = -1;
-        int spawnCol = -1;
-        for(int row = 0; row<setup.length; row++) {
-            for (int col = 0; col < setup[row].length; col++) {
-                if(setup[row][col]==0){
-                    spawnRow = -row;
-                    spawnCol = -col;
-                }
-            }
-        }
-
-
-        for(int row = 0; row<setup.length; row++){
-            int currentCol = spawnCol;
-            for(int col = 0; col<setup[row].length; col++){
-                Tile currentTile = null;
-                switch(setup[row][col]){
-                    case 0:  player = new Player(spawnRow,currentCol ); currentTile = player; break;
-                    case 1: currentTile = null; break;
-                    case 2: currentTile = new Tile(spawnRow,currentCol); break;
-                    case 3: currentTile = new Saw(spawnRow,currentCol, 3,100,100,0); break;
-                    case 9: currentTile = new Exit(spawnRow,currentCol); break;
-                }
-                map[row][col] = currentTile;
-                currentCol++;
-            }
-            spawnRow++;
-        }
-    }
-
-    public void move(){
-        player.move(map);
-        for(int row = 0; row<setup.length; row++){
-            for(int col = 0; col<setup[row].length; col++){
-                if(!( map[row][col] instanceof Player) &&  map[row][col] != null){
-                    map[row][col].move(player);
-                }
-            }
-        }
-
-    }
-
-    public void paint(Graphics g){
-        player.paint(g);
-        for(int row = 0; row<setup.length; row++) {
-            for (int col = 0; col < setup[row].length; col++) {
-                if(map[row][col] != null && !(map[row][col] instanceof Player))
-                        map[row][col].paint(g);
-            }
-
-        }
-
-    }
-
-    /*
-        {0,1,1,1,1,1,9},
-        {2,2,2,2,2,2,2}
-
-        {0,1,1,1,1,1,9},
-        {2,1,2,1,2,1,2}
-
-
-        {2,2,2,2,2,2,2},
-        {2,0,1,1,1,1,2},
-        {2,2,2,2,2,1,2},
-        {2,1,1,1,1,1,2},
-        {2,1,2,2,2,2,2},
-        {2,1,1,1,1,9,2},
-        {2,2,2,2,2,2,2},
      */
 
 

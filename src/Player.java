@@ -23,7 +23,9 @@ public class Player extends Tile {
         for(Tile tile: tiles) {
             if (tile != null && !(tile instanceof Player))
                 if (tile.getBounds().intersects(getBounds())) {
-
+                        if(tile  instanceof Exit){
+                            Map.nextLevel();
+                        }
                         falling = false;
                     break;
                 } else {
@@ -71,6 +73,7 @@ public class Player extends Tile {
                     }
         }
         else{
+
             dy = -1;
         }
 

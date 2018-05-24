@@ -8,6 +8,8 @@ public class Exit extends Tile {
         height = 30;
     }
 
+
+
     public void paint(Graphics g){
         g.setColor(Color.red);
         g.drawRect(x,y,width,height);
