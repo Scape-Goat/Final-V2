@@ -12,7 +12,18 @@ public class Player extends Tile {
     }
 
     public void move(Tile[][] map){
+       Tile lowestTile = null;
         Tile[] tiles = new Tile[map.length*map[0].length];
+        for(int col = 0; col<map[map.length-1].length; col++){
+            if(map[map.length-1][col] !=null){
+                lowestTile = map[map.length-1][col];
+            }
+        }
+
+        if(y>lowestTile.y){
+            Map.update();
+        }
+
         int count = 0;
         for(Tile[] row: map) {
             for (Tile tile : row) {
@@ -33,6 +44,7 @@ public class Player extends Tile {
                     falling = true;
                 }
         }
+
 
         if(Game.isJumping() && canJump){
             canJump = false;
@@ -66,6 +78,7 @@ public class Player extends Tile {
             if(dy<30)
             dy += 1;
             for(Tile tile: tiles)
+
                 if(tile!=null && !(tile instanceof Player))
                     if(new Rectangle(x,y+dy, width, height).intersects(tile.getBounds())) {
                         dy = 0;

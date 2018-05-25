@@ -4,6 +4,7 @@ public class Map {
     static int level = 0;
     static int[][][] setup = {
 
+
             {
                     {0,1,1,1,1,1,9},
                     {2,2,2,2,2,2,2}
