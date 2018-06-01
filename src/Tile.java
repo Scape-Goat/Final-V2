@@ -3,7 +3,7 @@ import java.awt.*;
 public class Tile implements Move,Paint {
     int x,y,width=150,height=30;
     public Tile(int row, int column){
-        x=(column*width)+285;
+        x=(column*width)+300-75;
         y=(row*height)+285;
     }
 

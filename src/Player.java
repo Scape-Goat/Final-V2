@@ -5,6 +5,7 @@ public class Player extends Tile {
     boolean canJump = true, jumping = false, falling = false;
     public Player(int row, int col){
         super(row, col);
+        x = 285;
         spawnX = x;
         spawnY = y;
         width = 30;
@@ -12,47 +13,48 @@ public class Player extends Tile {
     }
 
     public void move(Tile[][] map){
-       Tile lowestTile = null;
-        Tile[] tiles = new Tile[map.length*map[0].length];
-        for(int col = 0; col<map[map.length-1].length; col++){
-            if(map[map.length-1][col] !=null){
-                lowestTile = map[map.length-1][col];
+        if(STATS.isPlay()){
+            Tile lowestTile = null;
+            Tile[] tiles = new Tile[map.length*map[0].length];
+            for(int col = 0; col<map[map.length-1].length; col++){
+                if(map[map.length-1][col] !=null){
+                    lowestTile = map[map.length-1][col];
+                }
             }
-        }
 
-        if(y>lowestTile.y){
-            Map.update();
-        }
-
-        int count = 0;
-        for(Tile[] row: map) {
-            for (Tile tile : row) {
-                tiles[count] = tile;
-                count++;
+            if(y>lowestTile.y){
+                Map.update();
             }
-        }
-        for(Tile tile: tiles) {
-            if (tile != null && !(tile instanceof Player))
-                if (tile.getBounds().intersects(getBounds())) {
+
+            int count = 0;
+            for(Tile[] row: map) {
+                for (Tile tile : row) {
+                    tiles[count] = tile;
+                    count++;
+                }
+            }
+            for(Tile tile: tiles) {
+                if (tile != null && !(tile instanceof Player))
+                    if (tile.getBounds().intersects(getBounds())) {
                         if(tile  instanceof Exit){
                             Map.nextLevel();
                         }
                         falling = false;
-                    break;
-                } else {
+                        break;
+                    } else {
 
-                    falling = true;
-                }
-        }
+                        falling = true;
+                    }
+            }
 
 
-        if(Game.isJumping() && canJump){
-            canJump = false;
-            jumping = true;
-            dy = -20;
-        }
-        else if(jumping){
-            dy+=1;
+            if(Game.isJumping() && canJump){
+                canJump = false;
+                jumping = true;
+                dy = -20;
+            }
+            else if(jumping){
+                dy+=1;
                 for(Tile tile: tiles)
                     if(tile!=null && !(tile instanceof Player))
                         if(tile.getBounds().intersects(getBounds())) {
@@ -73,34 +75,35 @@ public class Player extends Tile {
                             }
                             break;
                         }
-        }
-        else if(falling) {
-            if(dy<30)
-            dy += 1;
-            for(Tile tile: tiles)
+            }
+            else if(falling) {
+                if(dy<30)
+                    dy += 1;
+                for(Tile tile: tiles)
 
-                if(tile!=null && !(tile instanceof Player))
-                    if(new Rectangle(x,y+dy, width, height).intersects(tile.getBounds())) {
-                        dy = 0;
-                        break;
-                    }
-        }
-        else{
+                    if(tile!=null && !(tile instanceof Player))
+                        if(new Rectangle(x,y+dy, width, height).intersects(tile.getBounds())) {
+                            dy = 0;
+                            break;
+                        }
+            }
+            else{
 
-            dy = -1;
-        }
+                dy = -1;
+            }
 
-        if(Game.isLeft()){
-            dx = -5;
+            if(Game.isLeft()){
+                dx = -5;
+            }
+            else if(Game.isRight()){
+                dx = 5;
+            }
+            else{
+                dx=0;
+            }
+            spawnY -= dy;
+            spawnX -= dx;
         }
-        else if(Game.isRight()){
-            dx = 5;
-        }
-        else{
-            dx=0;
-        }
-        spawnY -= dy;
-        spawnX -= dx;
     }
 
     public void paint(Graphics g){

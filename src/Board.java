@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 
 public class Board extends JPanel implements ActionListener {
 
-Map map;
-Timer timer;
+    Map map;
+    Timer timer;
     public Board() {
         setPreferredSize(new Dimension(600, 600));
         setBackground(Color.black);
@@ -23,8 +23,16 @@ Timer timer;
         super.paintComponent(g);
         g.setColor(Color.white);
 
-        map.paint(g);
+        if(STATS.isEnd()){
 
+        }
+        else if(STATS.isMenu()){
+            g.setColor(Color.WHITE);
+            printSimpleString("Press Enter", getWidth(), 0, getHeight()/2, g);
+        }
+        else{
+            map.paint(g);
+        }
     }
 
 
@@ -57,7 +65,11 @@ Timer timer;
 //
 
     }
-
+    private void printSimpleString(String s, int width, int XPos, int YPos, Graphics g2d){
+        int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
+        int start = width/2 - stringLen/2;
+        g2d.drawString(s, start + XPos, YPos);
+    }
 
 
 }

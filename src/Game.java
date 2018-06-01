@@ -16,7 +16,7 @@ public class Game extends JFrame{
         setVisible(true);
         setResizable(true);
         setExtendedState(MAXIMIZED_BOTH);
-        setTitle("Color Collision");
+        setTitle("Platformer");
         board = new Board();
         add(board);
         pack();
@@ -96,6 +96,9 @@ public class Game extends JFrame{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_SPACE){
                     jump = false;
+                }
+                if(STATS.isMenu() && e.getKeyCode() == KeyEvent.VK_ENTER){
+                    STATS.startGame();
                 }
 
 

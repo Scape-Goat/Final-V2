@@ -8,17 +8,13 @@ public class Map {
             {
                     {0,1,1,1,1,1,9},
                     {2,2,2,2,2,2,2}
-                    },
+            },
 
             {
                     {9,1,1,1,1,1,0},
                     {2,2,2,2,2,2,2}
             },
 
-            {
-                    {1,1,1,9,1,1,0},
-                    {2,2,2,2,2,2,2}
-            },
 
             {
                     {9},
@@ -126,9 +122,9 @@ public class Map {
 
 
 
-};
-  static   Tile[][] map;
-   static Player player;
+    };
+    static   Tile[][] map;
+    static Player player;
 
     public static void update(){
         map = new Tile[setup[level].length][setup[level][0].length];
@@ -179,7 +175,7 @@ public class Map {
         for(int row = 0; row<setup[level].length; row++) {
             for (int col = 0; col < setup[level][row].length; col++) {
                 if(map[row][col] != null && !(map[row][col] instanceof Player))
-                        map[row][col].paint(g);
+                    map[row][col].paint(g);
             }
 
         }
@@ -188,7 +184,12 @@ public class Map {
 
     public static void nextLevel(){
         level++;
-        update();
+        if(level >= setup.length-1){
+            STATS.endGame();
+        }
+        else{
+            update();
+        }
     }
 
     /*
